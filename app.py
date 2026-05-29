@@ -130,3 +130,47 @@ def set_role():
 
     return jsonify({"message": "Role güncellendi"})
 
+@app.route("/save-card", methods=["POST"])
+def save_card():
+    data = request.json
+
+    username = data["username"]
+    name = data["card_name"]
+    number = data["card_number"]
+
+    # SADECE SON 4 HANE
+    last4 = number[-4:]
+
+    # FAKE TOKEN (gerçek sistemde Stripe olur)
+    token = "tok_" + username + last4
+
+    conn = db()
+    c = conn.cursor()
+
+    c.execute("""
+        INSERT INTO cards(username, card_name, card_last4, card_token)
+        VALUES (?,?,?,?)
+    """, (username, name, last4, token))
+
+    conn.commit()
+
+    return jsonify({
+        "message": "Kart kaydedildi",
+        "last4": last4
+    })
+
+@app.route("/my-cards", methods=["POST"])
+def my_cards():
+    data = request.json
+    username = data["username"]
+
+    conn = db()
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT card_name, card_last4 FROM cards WHERE username=?
+    """, (username,))
+
+    cards = c.fetchall()
+
+    return jsonify(cards)
