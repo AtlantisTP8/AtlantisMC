@@ -312,3 +312,38 @@ async function buyItem(name, price){
     const data = await res.json();
     showToast(data.message);
 }
+
+
+async function saveCard() {
+    const username = localStorage.getItem("session_user");
+
+    const card_name = document.getElementById("card-name").value;
+    const card_number = document.getElementById("card-number").value;
+
+    const res = await fetch(API_URL + "/save-card", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            username,
+            card_name,
+            card_number
+        })
+    });
+
+    const data = await res.json();
+    showToast(data.message);
+}
+
+async function loadCards() {
+    const username = localStorage.getItem("session_user");
+
+    const res = await fetch(API_URL + "/my-cards", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ username })
+    });
+
+    const data = await res.json();
+
+    console.log("Cards:", data);
+}
