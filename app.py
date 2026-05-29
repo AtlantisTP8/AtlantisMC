@@ -10,59 +10,107 @@ CORS(app)
 
 SECRET = "super-secret-key"
 
+# ==========================
+# DB CONNECTION
+# ==========================
 def db():
-    return sqlite3.connect("users.db")
+    conn = sqlite3.connect("users.db", check_same_thread=False)
+    return conn
 
+
+# ==========================
+# INIT DB (SAFE)
+# ==========================
+def init_db():
+    conn = db()
+    c = conn.cursor()
+
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS users(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE,
+            email TEXT UNIQUE,
+            password TEXT,
+            role TEXT DEFAULT 'player'
+        )
+    """)
+
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS cards(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT,
+            card_name TEXT,
+            card_last4 TEXT,
+            card_token TEXT
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+# ==========================
+# HOME
+# ==========================
 @app.route("/")
 def home():
     return jsonify({"status": "OK", "message": "Atlantis API çalışıyor"})
 
+
+# ==========================
 # REGISTER
+# ==========================
 @app.route("/register", methods=["POST"])
 def register():
     data = request.json
-    username = data["username"]
-    email = data["email"]
-    password = data["password"]
 
-    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+
+    if not username or not email or not password:
+        return jsonify({"message": "Eksik bilgi"}), 400
+
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
     conn = db()
     c = conn.cursor()
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
-        email TEXT UNIQUE,
-        password BLOB,
-        role TEXT DEFAULT 'player'
-    )
-    """)
-    
+
     try:
-        c.execute("INSERT INTO users VALUES (NULL,?,?,?)", (username, email, hashed))
+        c.execute(
+            "INSERT INTO users (username, email, password) VALUES (?,?,?)",
+            (username, email, hashed)
+        )
         conn.commit()
     except:
         return jsonify({"message": "Kullanıcı zaten var"}), 400
+    finally:
+        conn.close()
 
     return jsonify({"message": "Kayıt başarılı"})
 
+
+# ==========================
 # LOGIN
+# ==========================
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
-    username = data["username"]
-    password = data["password"]
+
+    username = data.get("username")
+    password = data.get("password")
 
     conn = db()
     c = conn.cursor()
+
     c.execute("SELECT password FROM users WHERE username=?", (username,))
     user = c.fetchone()
+    conn.close()
 
     if not user:
         return jsonify({"message": "Kullanıcı yok"}), 404
 
-    if bcrypt.checkpw(password.encode(), user[0]):
+    if bcrypt.checkpw(password.encode(), user[0].encode()):
         token = jwt.encode({
             "user": username,
             "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=2)
@@ -73,76 +121,62 @@ def login():
     return jsonify({"message": "Hatalı şifre"}), 401
 
 
+# ==========================
 # RESET PASSWORD
+# ==========================
 @app.route("/reset-password", methods=["POST"])
 def reset():
     data = request.json
-    email = data["email"]
-    new_pass = data["newPassword"]
 
-    hashed = bcrypt.hashpw(new_pass.encode(), bcrypt.gensalt())
+    email = data.get("email")
+    new_pass = data.get("newPassword")
+
+    if not email or not new_pass:
+        return jsonify({"message": "Eksik bilgi"}), 400
+
+    hashed = bcrypt.hashpw(new_pass.encode(), bcrypt.gensalt()).decode()
 
     conn = db()
     c = conn.cursor()
 
     c.execute("UPDATE users SET password=? WHERE email=?", (hashed, email))
     conn.commit()
+    conn.close()
 
     return jsonify({"message": "Şifre güncellendi"})
 
-def check_admin(username):
-    conn = db()
-    c = conn.cursor()
-    c.execute("SELECT role FROM users WHERE username=?", (username,))
-    user = c.fetchone()
-    return user and user[0] == "admin"
 
-@app.route("/admin/users", methods=["GET"])
-def get_users():
-    admin = request.args.get("admin")
+# ==========================
+# JWT VERIFY
+# ==========================
+def verify_token(token):
+    try:
+        decoded = jwt.decode(token, SECRET, algorithms=["HS256"])
+        return decoded["user"]
+    except:
+        return None
 
-    if not check_admin(admin):
-        return jsonify({"message": "Yetkisiz"}), 403
 
-    conn = db()
-    c = conn.cursor()
-    c.execute("SELECT id, username, email, role FROM users")
-    users = c.fetchall()
-
-    return jsonify(users)
-
-@app.route("/admin/set-role", methods=["POST"])
-def set_role():
-    data = request.json
-
-    admin = data["admin"]
-    target = data["username"]
-    role = data["role"]
-
-    if not check_admin(admin):
-        return jsonify({"message": "Yetkisiz"}), 403
-
-    conn = db()
-    c = conn.cursor()
-
-    c.execute("UPDATE users SET role=? WHERE username=?", (role, target))
-    conn.commit()
-
-    return jsonify({"message": "Role güncellendi"})
-
+# ==========================
+# SAVE CARD (SECURE)
+# ==========================
 @app.route("/save-card", methods=["POST"])
 def save_card():
     data = request.json
 
-    username = data["username"]
-    name = data["card_name"]
-    number = data["card_number"]
+    token = data.get("token")
+    name = data.get("card_name")
+    number = data.get("card_number")
 
-    # SADECE SON 4 HANE
+    username = verify_token(token)
+    if not username:
+        return jsonify({"message": "Unauthorized"}), 403
+
+    if not name or not number:
+        return jsonify({"message": "Eksik kart bilgisi"}), 400
+
     last4 = number[-4:]
-
-    # FAKE TOKEN (gerçek sistemde Stripe olur)
-    token = "tok_" + username + last4
+    card_token = f"tok_{username}_{last4}"
 
     conn = db()
     c = conn.cursor()
@@ -150,19 +184,24 @@ def save_card():
     c.execute("""
         INSERT INTO cards(username, card_name, card_last4, card_token)
         VALUES (?,?,?,?)
-    """, (username, name, last4, token))
+    """, (username, name, last4, card_token))
 
     conn.commit()
+    conn.close()
 
-    return jsonify({
-        "message": "Kart kaydedildi",
-        "last4": last4
-    })
+    return jsonify({"message": "Kart kaydedildi", "last4": last4})
 
+
+# ==========================
+# GET MY CARDS
+# ==========================
 @app.route("/my-cards", methods=["POST"])
 def my_cards():
     data = request.json
-    username = data["username"]
+
+    username = verify_token(data.get("token"))
+    if not username:
+        return jsonify({"message": "Unauthorized"}), 403
 
     conn = db()
     c = conn.cursor()
@@ -172,5 +211,14 @@ def my_cards():
     """, (username,))
 
     cards = c.fetchall()
+    conn.close()
 
     return jsonify(cards)
+
+
+# ==========================
+# START SERVER
+# ==========================
+if __name__ == "__main__":
+    init_db()
+    app.run(host="0.0.0.0", port=5000)
