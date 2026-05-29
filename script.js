@@ -241,3 +241,37 @@ function resetPassword() {
     .then(data => showToast(data.message || "İşlem tamam"))
     .catch(() => showToast("Sunucu hatası"));
 }
+
+async function loadUsers() {
+    const admin = localStorage.getItem("session_user");
+
+    const res = await fetch(`${API_URL}/admin/users?admin=${admin}`);
+    const data = await res.json();
+
+    const box = document.getElementById("user-list");
+
+    box.innerHTML = "";
+
+    data.forEach(u => {
+        box.innerHTML += `
+            <div style="padding:10px;margin:10px;background:#111;border-radius:10px">
+                <b>${u[1]}</b> - ${u[3]}
+                <button onclick="setRole('${u[1]}','admin')">Admin yap</button>
+                <button onclick="setRole('${u[1]}','player')">Player yap</button>
+            </div>
+        `;
+    });
+}
+
+async function setRole(username, role) {
+    const admin = localStorage.getItem("session_user");
+
+    await fetch(`${API_URL}/admin/set-role`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ admin, username, role })
+    });
+
+    showToast("Role güncellendi");
+    loadUsers();
+}
