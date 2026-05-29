@@ -275,3 +275,40 @@ async function setRole(username, role) {
     showToast("Role güncellendi");
     loadUsers();
 }
+
+let token = localStorage.getItem("token");
+
+async function loginUser() {
+    const username = document.getElementById("login-user").value;
+    const password = document.getElementById("login-pass").value;
+
+    const res = await fetch(API_URL + "/login", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({username,password})
+    });
+
+    const data = await res.json();
+
+    if(res.ok){
+        localStorage.setItem("token", data.token);
+        showToast("Login OK");
+    } else {
+        showToast(data.message);
+    }
+}
+
+async function buyItem(name, price){
+    const res = await fetch(API_URL + "/buy", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            token: localStorage.getItem("token"),
+            item:name,
+            price:price
+        })
+    });
+
+    const data = await res.json();
+    showToast(data.message);
+}
