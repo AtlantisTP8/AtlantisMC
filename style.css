@@ -466,3 +466,13 @@ color:#38bdf8;
 .tab.active {
     display: block;
 }
+
+a {
+    text-decoration: none; /* Alt çizgiyi kaldırır */
+    color: purple; /* Link rengi mor */
+}
+
+a:hover {
+    text-decoration: underline; /* Üzerine gelince altı çizili */
+    text-decoration-color: purple; /* Çizgi mor */
+}
