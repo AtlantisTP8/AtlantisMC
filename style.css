@@ -442,10 +442,3 @@ margin:10px 0;
 color:#38bdf8;
 }
 
-.tab {
-    display: none;
-}
-
-.tab.active {
-    display: block;
-}
