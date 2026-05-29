@@ -1,132 +1,83 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+import bcrypt
+import jwt
+import datetime
 
 app = Flask(__name__)
 CORS(app)
 
-# ==========================
-# DATABASE
-# ==========================
+SECRET = "super-secret-key"
 
 def db():
-    conn = sqlite3.connect("database.db")
-    conn.row_factory = sqlite3.Row
-    return conn
-
-def init_db():
-    conn = db()
-    c = conn.cursor()
-
-    c.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        email TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
-    )
-    """)
-
-    conn.commit()
-    conn.close()
-
-init_db()
-
-# ==========================
-# HOME TEST
-# ==========================
+    return sqlite3.connect("users.db")
 
 @app.route("/")
 def home():
     return jsonify({"status": "OK", "message": "Atlantis API çalışıyor"})
 
-# ==========================
 # REGISTER
-# ==========================
-
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
+    data = request.json
+    username = data["username"]
+    email = data["email"]
+    password = data["password"]
 
-    username = data.get("username")
-    email = data.get("email")
-    password = data.get("password")
-
-    if not username or not email or not password:
-        return jsonify({"message": "Eksik bilgi"}), 400
-
-    hashed_password = generate_password_hash(password)
-
-    try:
-        conn = db()
-        c = conn.cursor()
-
-        c.execute(
-            "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-            (username, email, hashed_password)
-        )
-
-        conn.commit()
-        conn.close()
-
-        return jsonify({"message": "Kayıt başarılı"}), 200
-
-    except sqlite3.IntegrityError:
-        return jsonify({"message": "Kullanıcı zaten var"}), 409
-
-# ==========================
-# LOGIN
-# ==========================
-
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.get_json()
-
-    username = data.get("username")
-    password = data.get("password")
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
     conn = db()
     c = conn.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, email TEXT, password BLOB)")
+    
+    try:
+        c.execute("INSERT INTO users VALUES (NULL,?,?,?)", (username, email, hashed))
+        conn.commit()
+    except:
+        return jsonify({"message": "Kullanıcı zaten var"}), 400
 
-    c.execute("SELECT * FROM users WHERE username = ?", (username,))
+    return jsonify({"message": "Kayıt başarılı"})
+
+# LOGIN
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+    username = data["username"]
+    password = data["password"]
+
+    conn = db()
+    c = conn.cursor()
+    c.execute("SELECT password FROM users WHERE username=?", (username,))
     user = c.fetchone()
 
-    conn.close()
-
     if not user:
-        return jsonify({"message": "Kullanıcı bulunamadı"}), 404
+        return jsonify({"message": "Kullanıcı yok"}), 404
 
-    if check_password_hash(user["password"], password):
-        return jsonify({
-            "message": "Giriş başarılı",
-            "user": username
-        }), 200
+    if bcrypt.checkpw(password.encode(), user[0]):
+        token = jwt.encode({
+            "user": username,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=2)
+        }, SECRET, algorithm="HS256")
+
+        return jsonify({"message": "Giriş başarılı", "token": token})
 
     return jsonify({"message": "Hatalı şifre"}), 401
 
-# ==========================
-# RUN (LOCAL ONLY)
-# ==========================
 
-@app.route("/users")
-def users():
+# RESET PASSWORD
+@app.route("/reset-password", methods=["POST"])
+def reset():
+    data = request.json
+    email = data["email"]
+    new_pass = data["newPassword"]
+
+    hashed = bcrypt.hashpw(new_pass.encode(), bcrypt.gensalt())
+
     conn = db()
     c = conn.cursor()
 
-    c.execute("SELECT id, username, email FROM users")
-    data = c.fetchall()
+    c.execute("UPDATE users SET password=? WHERE email=?", (hashed, email))
+    conn.commit()
 
-    conn.close()
-
-    return jsonify([
-        {
-            "id": row["id"],
-            "username": row["username"],
-            "email": row["email"]
-        }
-        for row in data
-    ])
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    return jsonify({"message": "Şifre güncellendi"})
