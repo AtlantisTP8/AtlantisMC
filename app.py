@@ -29,7 +29,15 @@ def register():
 
     conn = db()
     c = conn.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, email TEXT, password BLOB)")
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        email TEXT UNIQUE,
+        password BLOB,
+        role TEXT DEFAULT 'player'
+    )
+    """)
     
     try:
         c.execute("INSERT INTO users VALUES (NULL,?,?,?)", (username, email, hashed))
@@ -81,3 +89,44 @@ def reset():
     conn.commit()
 
     return jsonify({"message": "Şifre güncellendi"})
+
+def check_admin(username):
+    conn = db()
+    c = conn.cursor()
+    c.execute("SELECT role FROM users WHERE username=?", (username,))
+    user = c.fetchone()
+    return user and user[0] == "admin"
+
+@app.route("/admin/users", methods=["GET"])
+def get_users():
+    admin = request.args.get("admin")
+
+    if not check_admin(admin):
+        return jsonify({"message": "Yetkisiz"}), 403
+
+    conn = db()
+    c = conn.cursor()
+    c.execute("SELECT id, username, email, role FROM users")
+    users = c.fetchall()
+
+    return jsonify(users)
+
+@app.route("/admin/set-role", methods=["POST"])
+def set_role():
+    data = request.json
+
+    admin = data["admin"]
+    target = data["username"]
+    role = data["role"]
+
+    if not check_admin(admin):
+        return jsonify({"message": "Yetkisiz"}), 403
+
+    conn = db()
+    c = conn.cursor()
+
+    c.execute("UPDATE users SET role=? WHERE username=?", (role, target))
+    conn.commit()
+
+    return jsonify({"message": "Role güncellendi"})
+
