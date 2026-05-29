@@ -1,3 +1,4 @@
+doğrumu şuan
 body {
     margin: 0;
     font-family: 'Arial';
@@ -140,6 +141,14 @@ body {
     border-radius: 10px;
     display: none;
     color: white;
+}
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #05070d;
+    color: white;
+    overflow-x: hidden;
 }
 
 /* canvas background */
@@ -319,6 +328,24 @@ body {
     border-left:3px solid gold;
 }
 
+}
+
+.auth-box{
+
+    max-width:400px;
+
+    margin:auto;
+
+    padding:30px;
+
+    background:rgba(
+        255,255,255,.05
+    );
+
+    border-radius:14px;
+
+    backdrop-filter:blur(8px);
+}
 
 .auth-box input{
 
@@ -344,6 +371,25 @@ body {
     border-radius:10px;
 
     cursor:pointer;
+}
+
+#toast{
+
+    position:fixed;
+
+    bottom:20px;
+
+    right:20px;
+
+    background:#111;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    display:none;
 }
 
 .field-error{
