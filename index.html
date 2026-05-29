@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AtlantisMC</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<nav class="navbar">
+
+    <div class="logo">⚔ AtlantisMC</div>
+
+    <div class="nav-links">
+        <a onclick="showTab('home')">Home</a>
+        <a onclick="showTab('shop')">Mağaza</a>
+        <a onclick="showTab('vote')">Vote</a>
+        <a onclick="showTab('about')">About</a>
+        <a onclick="showTab('contact')">İletişim</a>
+        <a onclick="showTab('news')">News</a>
+        <a onclick="showTab('login')">Login</a>
+        <a onclick="showTab('register')">Register</a>
+    </div>
+
+    <button class="join-btn" onclick="joinServer()">
+        Play Now
+    </button>
+
+    <div
+    id="profile-box"
+    class="profile-box"
+    style="display:none;">
+
+        <div
+        class="profile-avatar"
+        onclick="toggleProfileMenu()">
+
+        🟫
+
+        </div>
+
+        <div
+        id="profile-menu"
+        class="profile-menu">
+
+            <p id="profile-name"></p>
+
+            <p>📩 Hesap Bilgileri</p>
+
+            <p onclick="showTab('cards')">
+                💳 Kredi Kartları
+            </p>
+
+            <p onclick="showTab('shop')">
+                🛒 Mağaza
+            </p>
+
+            <p onclick="logoutUser()">
+                🚪 Çıkış
+            </p>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- HOME -->
+<section id="home" class="tab active">
+
+    <div class="hero">
+
+        <h1>⚔ AtlantisMC</h1>
+
+        <p>Next Generation Minecraft Experience</p>
+
+        <div class="ip-box">
+
+            <span>play.atlantismc.net</span>
+
+            <button class="copy-btn" onclick="copyIP()">
+                Copy IP
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SHOP -->
+<section id="shop" class="tab">
+
+    <h2>🛒 Shop</h2>
+
+    <p>
+        Sunucuyu destekle ve özel ünvanların sahibi ol.
+    </p>
+
+    <div class="shop-grid">
+
+        <div class="rank vip">
+            <h3>⚔ Dük</h3>
+            <p>Özel sohbet etiketi</p>
+            <span>₺200</span>
+
+            <button
+                class="buy-btn"
+                onclick="buyRank('Dük',200)">
+                Satın Al
+            </button>
+        </div>
+
+        <div class="rank vvip">
+            <h3>👑 Lord</h3>
+            <p>Ekstra komutlar</p>
+            <span>₺200</span>
+
+            <button
+                class="buy-btn"
+                onclick="buyRank('Lord',200)">
+                Satın Al
+            </button>
+        </div>
+
+        <div class="rank master">
+            <h3>🔥 Kral</h3>
+            <p>Özel efektler</p>
+            <span>₺400</span>
+
+            <button
+                class="buy-btn"
+                onclick="buyRank('Kral',400)">
+                Satın Al
+            </button>
+        </div>
+
+        <div class="rank">
+            <h3>🛡 Komutan</h3>
+            <p>Destek paketi</p>
+            <span>₺100</span>
+
+            <button
+                class="buy-btn"
+                onclick="buyRank('Komutan',100)">
+                Satın Al
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- VOTE -->
+<section id="vote" class="tab">
+
+    <h2>🗳 Vote</h2>
+
+    <p>Sunucuya oy vererek ödül kazan.</p>
+
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="tab">
+
+    <h2>📖 AtlantisMC History</h2>
+
+    <div class="news-container">
+
+        <div class="news-card">
+            <h3>⚔ İlk Açılış</h3>
+            <p>
+                AtlantisMC 6 yıl önce açıldı.
+                Eski Minecraft topluluğu tarafından sevildi.
+            </p>
+        </div>
+
+        <div class="news-card">
+            <h3>🌙 Kapanış</h3>
+            <p>
+                5 yıl önce kapandı.
+            </p>
+        </div>
+
+        <div class="news-card">
+            <h3>🔥 2026</h3>
+            <p>
+                AtlantisMC geri açıldı.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="tab">
+
+    <h2>📩 Contact</h2>
+
+    <div class="news-card">
+        <p>support@atlantismc.net</p>
+    </div>
+
+</section>
+
+<!-- NEWS -->
+<section id="news" class="tab">
+
+    <div class="news-container">
+
+        <h2>📰 Latest News</h2>
+
+        <div class="news-card">
+            <h3>Season 1 Released</h3>
+            <p>New world is live.</p>
+        </div>
+
+        <div class="news-card">
+            <h3>Anti Cheat Update</h3>
+            <p>Security improved.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="tab">
+
+<div class="auth-box">
+
+<h2>🔐 Login</h2>
+
+<input
+id="login-user"
+type="text"
+placeholder="Username">
+
+<small
+id="login-user-error"
+class="field-error"></small>
+
+<input
+id="login-pass"
+type="password"
+placeholder="Password">
+
+<small
+id="login-pass-error"
+class="field-error"></small>
+
+<button
+class="auth-btn"
+onclick="loginUser()">
+
+Login
+
+</button>
+
+</div>
+
+<p
+class="forgot-link"
+onclick="showTab('forgot')">
+
+Forgot Password?
+
+</p>
+
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="tab">
+
+<div class="auth-box">
+
+<h2>✨ Register</h2>
+
+<input
+id="reg-user"
+type="text"
+placeholder="Username">
+
+<small
+id="reg-user-error"
+class="field-error"></small>
+
+<input
+id="reg-email"
+type="email"
+placeholder="Email">
+
+<small
+id="reg-email-error"
+class="field-error"></small>
+
+<input
+id="reg-pass"
+type="password"
+placeholder="Password">
+
+<small
+id="reg-pass-error"
+class="field-error"></small>
+
+<button
+class="auth-btn"
+onclick="registerUser()">
+
+Register
+
+</button>
+
+</div>
+
+</section>
+
+<!-- FORGOT -->
+<section id="forgot" class="tab">
+
+<div class="auth-box">
+
+<h2>📩 Reset Password</h2>
+
+<input
+id="forgot-email"
+type="email"
+placeholder="Email">
+
+<input
+id="new-pass"
+type="password"
+placeholder="New Password">
+
+<button
+class="auth-btn"
+onclick="resetPassword()">
+
+Reset Password
+
+</button>
+
+</div>
+
+</section>
+
+<!-- CARDS -->
+<section
+id="cards"
+class="tab">
+
+<div class="auth-box">
+
+<h2>💳 Kredi Kartı</h2>
+
+<input
+id="card-name"
+placeholder="Kart Üzerindeki İsim">
+
+<input
+id="card-number"
+placeholder="Kart Numarası">
+
+<input
+id="card-date"
+placeholder="MM/YY">
+
+<input
+id="card-cvv"
+placeholder="CVV">
+
+<button
+class="auth-btn"
+onclick="saveCard()">
+
+Kartı Kaydet
+
+</button>
+
+</div>
+
+</section>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
