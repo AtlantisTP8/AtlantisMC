@@ -1,4 +1,4 @@
-css kodum:
+
 body {
     margin: 0;
     font-family: 'Arial';
@@ -467,12 +467,19 @@ color:#38bdf8;
     display: block;
 }
 
-a {
-    text-decoration: none; /* Alt çizgiyi kaldırır */
-    color: purple; /* Link rengi mor */
+.nav-links a {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* mor-mavi geçiş */
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-a:hover {
-    text-decoration: underline; /* Üzerine gelince altı çizili */
-    text-decoration-color: purple; /* Çizgi mor */
+.nav-links a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
