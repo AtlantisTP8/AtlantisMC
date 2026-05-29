@@ -94,6 +94,14 @@ body {
     border-radius: 12px;
 }
 
+.tab{ 
+    display:none; 
+}
+
+.active{ 
+    display:block; 
+}
+
 /* COPY BUTTON */
 .copy-btn {
     background: #22c55e;
