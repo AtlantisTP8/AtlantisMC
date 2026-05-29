@@ -39,7 +39,7 @@ function showToast(text) {
 // ==========================
 
 function copyIP() {
-    navigator.clipboard.writeText("play.atlantismc.net");
+    navigator.clipboard.writeText("atlantis.minecraft.party");
     showToast("✔ IP kopyalandı!");
 }
 
@@ -50,7 +50,7 @@ function copyIP() {
 function joinServer() {
     showToast("Minecraft açılıyor...");
     window.location.href =
-        "minecraft://?addExternalServer=AtlantisMC|play.atlantismc.net";
+        "minecraft://?addExternalServer=AtlantisMC|atlantis.minecraft.party";
 }
 
 // ==========================
