@@ -23,7 +23,7 @@ function showTab(id) {
 
 function copyIP() {
 
-    navigator.clipboard.writeText("play.atlantismc.net");
+    navigator.clipboard.writeText("purposes-releases.gl.joinmc.link");
 
     showToast("✔ IP copied!");
 }
