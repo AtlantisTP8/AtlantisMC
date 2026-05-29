@@ -218,3 +218,26 @@ if (canvas) {
         h = canvas.height = window.innerHeight;
     });
 }
+
+function resetPassword() {
+    const email = document.getElementById("forgot-email").value.trim();
+    const newPass = document.getElementById("new-pass").value.trim();
+
+    if (!email || !newPass) {
+        showToast("Alanları doldur!");
+        return;
+    }
+
+    showToast("Şifre güncelleme backend'e gönderildi");
+
+    fetch(`${API_URL}/reset-password`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, newPassword: newPass })
+    })
+    .then(res => res.json())
+    .then(data => showToast(data.message || "İşlem tamam"))
+    .catch(() => showToast("Sunucu hatası"));
+}
