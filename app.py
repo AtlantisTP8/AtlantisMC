@@ -109,5 +109,24 @@ def login():
 # RUN (LOCAL ONLY)
 # ==========================
 
+@app.route("/users")
+def users():
+    conn = db()
+    c = conn.cursor()
+
+    c.execute("SELECT id, username, email FROM users")
+    data = c.fetchall()
+
+    conn.close()
+
+    return jsonify([
+        {
+            "id": row["id"],
+            "username": row["username"],
+            "email": row["email"]
+        }
+        for row in data
+    ])
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
