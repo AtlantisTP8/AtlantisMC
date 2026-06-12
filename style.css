@@ -303,3 +303,139 @@ transform:translate(-40px,-20px) scale(1.1);
 box-shadow:
 0 0 25px rgba(56,189,248,.05);
 }
+
+/* PARTICLE BACKGROUND */
+
+#particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-999;
+}
+
+/* HERO LIGHT */
+
+.hero{
+position:relative;
+}
+
+.hero::before{
+
+content:"";
+
+position:absolute;
+
+width:500px;
+height:500px;
+
+left:50%;
+top:50%;
+
+transform:translate(-50%,-50%);
+
+background:
+radial-gradient(
+circle,
+rgba(56,189,248,.15),
+transparent 70%
+);
+
+filter:blur(60px);
+
+animation:pulseHero 5s infinite;
+
+pointer-events:none;
+}
+
+@keyframes pulseHero{
+
+0%,100%{
+opacity:.5;
+transform:translate(-50%,-50%) scale(1);
+}
+
+50%{
+opacity:1;
+transform:translate(-50%,-50%) scale(1.2);
+}
+}
+
+/* FLOATING CARDS */
+
+.card{
+
+animation:floatCard 6s ease-in-out infinite;
+}
+
+@keyframes floatCard{
+
+0%,100%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-8px);
+}
+}
+
+/* LOGO EFFECT */
+
+.logo{
+
+animation:logoGlow 3s infinite;
+}
+
+@keyframes logoGlow{
+
+0%,100%{
+text-shadow:
+0 0 10px #38bdf8;
+}
+
+50%{
+text-shadow:
+0 0 30px #38bdf8,
+0 0 60px #38bdf8;
+}
+}
+
+/* NAVBAR GLASS */
+
+.navbar{
+
+backdrop-filter:blur(20px);
+
+box-shadow:
+0 0 30px rgba(56,189,248,.1);
+}
+
+/* BUTTON GLOW */
+
+.vote-btn:hover{
+
+box-shadow:
+0 0 20px rgba(56,189,248,.5),
+0 0 50px rgba(56,189,248,.2);
+}
+
+/* PAGE FADE */
+
+.tab{
+
+animation:fadePage .5s;
+}
+
+@keyframes fadePage{
+
+from{
+opacity:0;
+transform:translateY(15px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
