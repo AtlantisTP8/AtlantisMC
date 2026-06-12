@@ -160,3 +160,24 @@ window.innerHeight;
 
 }
 );
+
+async function updatePlayerCount() {
+    try {
+        const response = await fetch("https://api.mcsrvstat.us/3/atlantis.minecraft.party", {
+            headers: { "User-Agent": "AtlantisMC-WebClient" }
+        });
+        const data = await response.json();
+
+        if (data.online) {
+            document.getElementById("player-count").textContent = data.players.online;
+        } else {
+            document.getElementById("player-count").textContent = "Sunucu Kapalı";
+        }
+    } catch (error) {
+        console.error("Oyuncu sayısı alınamadı:", error);
+        document.getElementById("player-count").textContent = "Hata";
+    }
+}
+
+// Sayfa açıldığında çalıştır
+window.onload = updatePlayerCount;
