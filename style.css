@@ -51,6 +51,59 @@ body {
     width: 100%;
 }
 
+#vote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.vote-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    padding: 40px;
+
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+
+    min-width: 350px;
+}
+
+.vote-box h2,
+.vote-box p {
+    color: white;
+    text-align: center;
+}
+
+.vote-btn {
+    width: 220px;
+
+    text-align: center;
+    text-decoration: none;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+
+    color: white;
+
+    transition: 0.3s;
+}
+
+.vote-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.2);
+}
+
 /* JOIN BUTTON */
 .join-btn {
     background: linear-gradient(135deg, #38bdf8, #2563eb);
