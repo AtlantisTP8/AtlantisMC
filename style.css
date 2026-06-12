@@ -1,391 +1,207 @@
+/* ========================================= */
+/* ATMOSPHERIC LIGHT EFFECT */
+/* ========================================= */
 
-body {
-    margin: 0;
-    font-family: 'Arial';
-    background: radial-gradient(circle at top, #0b1220, #05070d);
-    color: #e5e7eb;
-}
-
-/* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: rgba(10, 15, 25, 0.7);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.logo {
-    color: #38bdf8;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.nav-links a {
-    margin: 0 10px;
-    cursor: pointer;
-    color: #9ca3af;
-    transition: 0.25s;
-    position: relative;
-}
-
-.nav-links a:hover {
-    color: #38bdf8;
-}
-
-/* underline animation */
-.nav-links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0%;
-    height: 2px;
-    background: #38bdf8;
-    transition: 0.3s;
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-#vote {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-}
-
-.vote-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-
-    padding: 40px;
-
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 20px;
-
-    min-width: 350px;
-}
-
-.vote-box h2,
-.vote-box p {
-    color: white;
-    text-align: center;
-}
-
-.vote-btn {
-    width: 220px;
-
-    text-align: center;
-    text-decoration: none;
-
-    padding: 12px;
-
-    border-radius: 10px;
-
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-
-    color: white;
-
-    transition: 0.3s;
-}
-
-.vote-btn:hover {
-    transform: translateY(-2px);
-    background: rgba(255,255,255,0.2);
-}
-
-/* JOIN BUTTON */
-.join-btn {
-    background: linear-gradient(135deg, #38bdf8, #2563eb);
-    border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.join-btn:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 0 25px rgba(56,189,248,0.6);
-}
-
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 120px 20px;
-}
-
-.hero h1 {
-    font-size: 55px;
-    color: #38bdf8;
-}
-
-.hero p {
-    color: #94a3b8;
-}
-
-/* IP BOX */
-.ip-box {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 15px;
-    margin-top: 20px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-}
-
-/* COPY BUTTON */
-.copy-btn {
-    background: #22c55e;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.25s;
-    color: white;
-}
-
-.copy-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(34,197,94,0.6);
-}
-
-/* TABS */
-.tab {
-    display: none;
-    padding: 60px;
-    text-align: center;
-}
-
-.tab.active {
-    display: block;
-}
-
-/* NEWS */
-.news-container {
-    max-width: 600px;
-    margin: auto;
-}
-
-.news-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 20px;
-    margin: 15px 0;
-    border-radius: 12px;
-    transition: 0.3s;
-}
-
-.news-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-/* TOAST */
-#toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #22c55e;
-    padding: 12px 18px;
-    border-radius: 10px;
-    display: none;
-    color: white;
-}
-
-body {
-    margin: 0;
-    font-family: Arial;
-    background: #05070d;
-    color: white;
-    overflow-x: hidden;
-}
-
-/* canvas background */
-#bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-
-.auth-box{
-    max-width:420px;
-    margin:auto;
-    background:rgba(255,255,255,.04);
-    padding:35px;
-    border-radius:18px;
-    backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,.08);
-    box-shadow:0 10px 35px rgba(0,0,0,.4);
-}
-
-.auth-box h2{
-    margin-bottom:20px;
-}
-
-.auth-box input{
-    width:100%;
-    margin:10px 0;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:#111827;
-    color:white;
-    font-size:15px;
-}
-
-.auth-btn{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    margin-top:15px;
-    cursor:pointer;
-    background:linear-gradient(
-        135deg,
-        #38bdf8,
-        #2563eb
-    );
-    color:white;
-    font-size:16px;
-}
-
-
-/* HER ÜNVAN AYRI KUTU */
-
-
-.auth-box input{
-
-    width:100%;
-
-    margin:10px 0;
-
-    padding:12px;
-
-    border-radius:10px;
-
-    border:none;
-}
-
-.auth-btn{
-
-    width:100%;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:10px;
-
-    cursor:pointer;
-}
-
-#toast{
-
+body::before{
+    content:"";
     position:fixed;
+    inset:0;
 
-    bottom:20px;
+    background:
+    radial-gradient(circle at 20% 20%, rgba(56,189,248,.10), transparent 25%),
+    radial-gradient(circle at 80% 30%, rgba(37,99,235,.08), transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(168,85,247,.06), transparent 30%);
 
-    right:20px;
+    animation:ambientMove 18s ease-in-out infinite alternate;
 
-    background:#111;
-
-    color:white;
-
-    padding:12px;
-
-    border-radius:10px;
-
-    display:none;
+    pointer-events:none;
+    z-index:-2;
 }
 
-.field-error{
-color:#ff5a5a;
-font-size:13px;
-display:block;
-margin:6px 0 10px;
+@keyframes ambientMove{
+    0%{
+        transform:translate(0px,0px) scale(1);
+    }
+    100%{
+        transform:translate(-40px,-25px) scale(1.08);
+    }
 }
 
-.profile-box{
-position:relative;
-margin-left:15px;
+/* ========================================= */
+/* HERO GLOW */
+/* ========================================= */
+
+.hero h1{
+
+    text-shadow:
+    0 0 15px rgba(56,189,248,.4),
+    0 0 35px rgba(56,189,248,.2);
+
+    animation:heroGlow 4s ease-in-out infinite;
 }
+
+@keyframes heroGlow{
+
+    0%,100%{
+        text-shadow:
+        0 0 15px rgba(56,189,248,.4),
+        0 0 35px rgba(56,189,248,.2);
+    }
+
+    50%{
+        text-shadow:
+        0 0 25px rgba(56,189,248,.8),
+        0 0 60px rgba(56,189,248,.5);
+    }
+}
+
+/* ========================================= */
+/* FLOATING VOTE BOX */
+/* ========================================= */
+
+.vote-box{
+    animation:floatBox 7s ease-in-out infinite;
+}
+
+@keyframes floatBox{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+/* ========================================= */
+/* SHINE EFFECT */
+/* ========================================= */
+
+.vote-btn,
+.join-btn,
+.auth-btn{
+
+    position:relative;
+    overflow:hidden;
+}
+
+.vote-btn::before,
+.join-btn::before,
+.auth-btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-150%;
+
+    width:60%;
+    height:100%;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.25),
+        transparent
+    );
+
+    transition:.8s;
+}
+
+.vote-btn:hover::before,
+.join-btn:hover::before,
+.auth-btn:hover::before{
+
+    left:150%;
+}
+
+/* ========================================= */
+/* CARD HOVER GLOW */
+/* ========================================= */
+
+.news-card:hover{
+
+    box-shadow:
+    0 0 15px rgba(56,189,248,.15),
+    0 0 40px rgba(56,189,248,.08);
+
+    border-color:rgba(56,189,248,.25);
+}
+
+/* ========================================= */
+/* NAVBAR BREATHING EFFECT */
+/* ========================================= */
+
+.navbar{
+
+    animation:navPulse 6s ease-in-out infinite;
+}
+
+@keyframes navPulse{
+
+    0%,100%{
+        box-shadow:0 0 0 rgba(56,189,248,0);
+    }
+
+    50%{
+        box-shadow:0 0 20px rgba(56,189,248,.08);
+    }
+}
+
+/* ========================================= */
+/* IP BOX GLOW */
+/* ========================================= */
+
+.ip-box{
+
+    animation:ipPulse 5s ease-in-out infinite;
+}
+
+@keyframes ipPulse{
+
+    0%,100%{
+        box-shadow:0 0 0 rgba(56,189,248,0);
+    }
+
+    50%{
+        box-shadow:0 0 20px rgba(56,189,248,.15);
+    }
+}
+
+/* ========================================= */
+/* LINK HOVER FLOAT */
+/* ========================================= */
+
+.nav-links a:hover{
+
+    transform:
+    translateY(-2px)
+    scale(1.03);
+}
+
+/* ========================================= */
+/* PROFILE AVATAR GLOW */
+/* ========================================= */
 
 .profile-avatar{
-width:42px;
-height:42px;
-border-radius:50%;
-background:#38bdf8;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-font-size:20px;
-transition:.2s;
+
+    box-shadow:
+    0 0 15px rgba(56,189,248,.2);
 }
 
 .profile-avatar:hover{
-transform:scale(1.05);
+
+    box-shadow:
+    0 0 25px rgba(56,189,248,.5);
 }
 
-.profile-menu{
-display:none;
-position:absolute;
-right:0;
-top:52px;
-background:#111827;
-padding:15px;
-border-radius:12px;
-min-width:220px;
-z-index:999;
-box-shadow:0 8px 30px rgba(0,0,0,.35);
-}
+/* ========================================= */
+/* SMOOTH PAGE FEEL */
+/* ========================================= */
 
-.profile-menu p{
-cursor:pointer;
-margin:10px 0;
+*{
+    scroll-behavior:smooth;
 }
-
-.profile-menu p:hover{
-color:#38bdf8;
-}
-
-.tab {
-    display: none;
-}
-
-.tab.active {
-    display: block;
-}
-
-.nav-links a {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #6a11cb, #2575fc); /* mor-mavi geçiş */
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.nav-links a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
