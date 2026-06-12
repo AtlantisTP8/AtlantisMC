@@ -83,14 +83,32 @@ padding-top:120px;
 }
 
 .hero h1{
-
 font-size:65px;
-
 color:#38bdf8;
-
 margin-bottom:15px;
+
+text-shadow:
+0 0 10px rgba(56,189,248,.5),
+0 0 20px rgba(56,189,248,.4),
+0 0 40px rgba(56,189,248,.3);
+
+animation: glow 3s ease-in-out infinite;
 }
 
+@keyframes glow{
+
+0%,100%{
+text-shadow:
+0 0 10px rgba(56,189,248,.5),
+0 0 20px rgba(56,189,248,.4);
+}
+
+50%{
+text-shadow:
+0 0 20px rgba(56,189,248,.8),
+0 0 50px rgba(56,189,248,.5);
+}
+}
 .hero p{
 
 color:#94a3b8;
@@ -116,21 +134,22 @@ rgba(255,255,255,.05);
 backdrop-filter:blur(10px);
 }
 
-.ip-box button{
+.ip-box{
 
-background:#22c55e;
-
-border:none;
-
-padding:10px 15px;
-
-border-radius:10px;
-
-cursor:pointer;
-
-color:white;
+animation: pulsebox 4s infinite;
 }
 
+@keyframes pulsebox{
+
+0%,100%{
+box-shadow:0 0 0 rgba(56,189,248,0);
+}
+
+50%{
+box-shadow:
+0 0 25px rgba(56,189,248,.2);
+}
+}
 .card{
 
 max-width:700px;
@@ -209,4 +228,90 @@ padding:15px;
 border-radius:12px;
 
 display:none;
+}
+
+.vote-btn,
+.ip-box button{
+
+position:relative;
+overflow:hidden;
+}
+
+.vote-btn::before,
+.ip-box button::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+left:-120%;
+
+width:60%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.4),
+transparent
+);
+
+transition:.8s;
+}
+
+.vote-btn:hover::before,
+.ip-box button:hover::before{
+
+left:150%;
+}
+
+.card{
+
+transition:.3s;
+}
+
+.card:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+0 0 20px rgba(56,189,248,.15),
+0 0 50px rgba(56,189,248,.08);
+}
+
+body::before{
+
+content:"";
+
+position:fixed;
+inset:0;
+
+background:
+radial-gradient(circle at 20% 20%, rgba(56,189,248,.08), transparent 25%),
+radial-gradient(circle at 80% 30%, rgba(37,99,235,.08), transparent 25%),
+radial-gradient(circle at 50% 80%, rgba(168,85,247,.05), transparent 30%);
+
+animation:bgmove 15s ease-in-out infinite alternate;
+
+pointer-events:none;
+z-index:-1;
+}
+
+@keyframes bgmove{
+
+0%{
+transform:translate(0,0) scale(1);
+}
+
+100%{
+transform:translate(-40px,-20px) scale(1.1);
+}
+}
+
+.navbar{
+
+box-shadow:
+0 0 25px rgba(56,189,248,.05);
 }
