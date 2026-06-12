@@ -1,95 +1,54 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AtlantisMC</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
-
 <nav class="navbar">
 
-    <div class="logo">⚔ AtlantisMC</div>
-
-    <div class="nav-links">
-        <a onclick="showTab('home')">Home</a>
-        <a onclick="showTab('vote')">Vote</a>
-        <a onclick="showTab('about')">About</a>
-        <a onclick="showTab('contact')">Contact</a>
-        <a onclick="showTab('news')">News</a>
+    <div class="logo">
+        ⚔ AtlantisMC
     </div>
 
-    <button class="join-btn" onclick="joinServer()">
-        Play Now
-    </button>
+    <div class="nav-links">
 
-    <div
-    id="profile-box"
-    class="profile-box"
-    style="display:none;">
+        <a onclick="showTab('home')">Home</a>
 
-        <div
-        class="profile-avatar"
-        onclick="toggleProfileMenu()">
+        <a onclick="showTab('vote')">Vote</a>
 
-        🟫
+        <a onclick="showTab('news')">News</a>
 
-        </div>
+        <a onclick="showTab('about')">About</a>
 
-        <div
-        id="profile-menu"
-        class="profile-menu">
-
-            <p id="profile-name"></p>
-
-            <p>📩 Hesap Bilgileri</p>
-
-            <p onclick="showTab('cards')">
-                💳 Kredi Kartları
-            </p>
-
-            <p onclick="showTab('shop')">
-                🛒 Mağaza
-            </p>
-
-            <p onclick="logoutUser()">
-                🚪 Çıkış
-            </p>
-
-        </div>
+        <a onclick="showTab('contact')">Contact</a>
 
     </div>
 
 </nav>
 
-<section id="admin" class="tab">
-
-<h2>👑 Admin Panel</h2>
-
-<button onclick="loadUsers()">Kullanıcıları Listele</button>
-
-<div id="user-list"></div>
-
-</section>
-
-<!-- HOME -->
 <section id="home" class="tab active">
 
     <div class="hero">
 
         <h1>⚔ AtlantisMC</h1>
 
-        <p>Next Generation Minecraft Experience</p>
+        <p>
+            Next Generation Minecraft Experience
+        </p>
 
         <div class="ip-box">
 
-            <span>atlantis.minecraft.party</span>
+            <span>
+                atlantis.minecraft.party
+            </span>
 
-            <button class="copy-btn" onclick="copyIP()">
+            <button onclick="copyIP()">
                 Copy IP
             </button>
 
@@ -99,85 +58,100 @@
 
 </section>
 
-<!-- VOTE -->
 <section id="vote" class="tab">
 
-    <h2>🗳 Vote</h2>
+    <div class="card">
 
-    <p>Sunucuya oy vererek ödül kazan.</p>
+        <h2>🗳 Vote</h2>
 
-    <a href="https://minecraft-mp.com/server/348790/vote/" target = "_blank">1 - Oy Sitesi</a>
-    <a href="https://minecraft-mp.com/server/348790/vote/" target = "_blank">2 - Oy Sitesi</a>
-    <a href="https://minecraft-mp.com/server/348790/vote/" target = "_blank">3 - Oy Sitesi</a>
-    <a href="https://minecraft-mp.com/server/348790/vote/" target = "_blank">4 - Oy Sitesi</a>
-    
+        <p>Oy vererek ödüller kazan.</p>
 
-</section>
+        <a class="vote-btn" href="https://minecraft-mp.com/server/348790/vote/" target="_blank">
+            Vote Site #1
+        </a>
 
-<!-- ABOUT -->
-<section id="about" class="tab">
+        <a class="vote-btn" href="https://minecraft-mp.com/server/348790/vote/" target="_blank">
+            Vote Site #2
+        </a>
 
-    <h2>📖 AtlantisMC History</h2>
-
-    <div class="news-container">
-
-        <div class="news-card">
-            <h3>⚔ İlk Açılış</h3>
-            <p>
-                AtlantisMC 6 yıl önce açıldı.
-                Eski Minecraft topluluğu tarafından sevildi.
-            </p>
-        </div>
-
-        <div class="news-card">
-            <h3>🌙 Kapanış</h3>
-            <p>
-                5 yıl önce kapandı.
-            </p>
-        </div>
-
-        <div class="news-card">
-            <h3>🔥 2026</h3>
-            <p>
-                AtlantisMC geri açıldı.
-            </p>
-        </div>
+        <a class="vote-btn" href="https://minecraft-mp.com/server/348790/vote/" target="_blank">
+            Vote Site #3
+        </a>
 
     </div>
 
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="tab">
-
-    <h2>📩 Contact</h2>
-
-    <div class="news-card">
-        <a href="https://discord.gg/85BWBScZg2" target="_blank">Discord’a Katıl</a>
-    </div>
-
-</section>
-
-<!-- NEWS -->
 <section id="news" class="tab">
 
-    <div class="news-container">
+    <div class="card">
 
-        <h2>📰 Latest News</h2>
+        <h2>📰 News</h2>
 
-        <div class="news-card">
-            <h3>Season 1 Released</h3>
-            <p>New world is live.</p>
+        <div class="news-item">
+
+            <h3>Season 1 Opened</h3>
+
+            <p>
+                Yeni dünya açıldı.
+            </p>
+
         </div>
 
-        <div class="news-card">
-            <h3>Anti Cheat Update</h3>
-            <p>Security improved.</p>
+        <div class="news-item">
+
+            <h3>New AntiCheat</h3>
+
+            <p>
+                Güvenlik geliştirildi.
+            </p>
+
         </div>
 
     </div>
 
 </section>
+
+<section id="about" class="tab">
+
+    <div class="card">
+
+        <h2>📖 About AtlantisMC</h2>
+
+        <p>
+
+            AtlantisMC uzun yıllar sonra tekrar açılmış,
+            modern ve güvenli bir Minecraft sunucusudur.
+
+        </p>
+
+    </div>
+
+</section>
+
+<section id="contact" class="tab">
+
+    <div class="card">
+
+        <h2>📩 Contact</h2>
+
+        <a class="vote-btn"
+        href="https://discord.gg/85BWBScZg2"
+        target="_blank">
+
+        Discord'a Katıl
+
+        </a>
+
+    </div>
+
+</section>
+
+<div id="toast">
+IP Kopyalandı
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
