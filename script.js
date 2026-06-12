@@ -168,14 +168,14 @@ function copyIP() {
     setTimeout(() => toast.style.display = "none", 2000);
 }
 
-// AtlantisMC oyuncu sayısını güncelle
 async function updatePlayerCount() {
     try {
-        const response = await fetch("https://api.mcsrvstat.us/2/atlantis.minecraft.party");
+        const response = await fetch("https://api.mcsrvstat.us/2/atlantis.minecraft.party:25565");
         const data = await response.json();
 
         if (data.online) {
-            document.getElementById("player-count").textContent = data.players.online;
+            document.getElementById("player-count").textContent =
+                data.players.online + " / " + data.players.max;
         } else {
             document.getElementById("player-count").textContent = "Sunucu Kapalı";
         }
@@ -185,9 +185,8 @@ async function updatePlayerCount() {
     }
 }
 
-// Sayfa açıldığında çalıştır ve her 30 saniyede bir güncelle
 window.onload = () => {
     updatePlayerCount();
-    setInterval(updatePlayerCount, 30000);
+    setInterval(updatePlayerCount, 30000); // her 30 saniyede bir güncelle
 };
 
