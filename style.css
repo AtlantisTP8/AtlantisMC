@@ -211,15 +211,6 @@ body {
     font-size:16px;
 }
 
-/* SHOP GRID */
-
-.shop-grid{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-    margin-top:30px;
-}
 
 /* HER ÜNVAN AYRI KUTU */
 
