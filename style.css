@@ -1,207 +1,212 @@
-/* ========================================= */
-/* ATMOSPHERIC LIGHT EFFECT */
-/* ========================================= */
-
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-
-    background:
-    radial-gradient(circle at 20% 20%, rgba(56,189,248,.10), transparent 25%),
-    radial-gradient(circle at 80% 30%, rgba(37,99,235,.08), transparent 25%),
-    radial-gradient(circle at 50% 80%, rgba(168,85,247,.06), transparent 30%);
-
-    animation:ambientMove 18s ease-in-out infinite alternate;
-
-    pointer-events:none;
-    z-index:-2;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-@keyframes ambientMove{
-    0%{
-        transform:translate(0px,0px) scale(1);
-    }
-    100%{
-        transform:translate(-40px,-25px) scale(1.08);
-    }
+body{
+font-family:Arial;
+background:
+linear-gradient(
+135deg,
+#05070d,
+#0b1220
+);
+
+color:white;
+min-height:100vh;
 }
-
-/* ========================================= */
-/* HERO GLOW */
-/* ========================================= */
-
-.hero h1{
-
-    text-shadow:
-    0 0 15px rgba(56,189,248,.4),
-    0 0 35px rgba(56,189,248,.2);
-
-    animation:heroGlow 4s ease-in-out infinite;
-}
-
-@keyframes heroGlow{
-
-    0%,100%{
-        text-shadow:
-        0 0 15px rgba(56,189,248,.4),
-        0 0 35px rgba(56,189,248,.2);
-    }
-
-    50%{
-        text-shadow:
-        0 0 25px rgba(56,189,248,.8),
-        0 0 60px rgba(56,189,248,.5);
-    }
-}
-
-/* ========================================= */
-/* FLOATING VOTE BOX */
-/* ========================================= */
-
-.vote-box{
-    animation:floatBox 7s ease-in-out infinite;
-}
-
-@keyframes floatBox{
-
-    0%,100%{
-        transform:translateY(0px);
-    }
-
-    50%{
-        transform:translateY(-8px);
-    }
-}
-
-/* ========================================= */
-/* SHINE EFFECT */
-/* ========================================= */
-
-.vote-btn,
-.join-btn,
-.auth-btn{
-
-    position:relative;
-    overflow:hidden;
-}
-
-.vote-btn::before,
-.join-btn::before,
-.auth-btn::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:-150%;
-
-    width:60%;
-    height:100%;
-
-    background:
-    linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.25),
-        transparent
-    );
-
-    transition:.8s;
-}
-
-.vote-btn:hover::before,
-.join-btn:hover::before,
-.auth-btn:hover::before{
-
-    left:150%;
-}
-
-/* ========================================= */
-/* CARD HOVER GLOW */
-/* ========================================= */
-
-.news-card:hover{
-
-    box-shadow:
-    0 0 15px rgba(56,189,248,.15),
-    0 0 40px rgba(56,189,248,.08);
-
-    border-color:rgba(56,189,248,.25);
-}
-
-/* ========================================= */
-/* NAVBAR BREATHING EFFECT */
-/* ========================================= */
 
 .navbar{
 
-    animation:navPulse 6s ease-in-out infinite;
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:20px 40px;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(10px);
+
+border-bottom:
+1px solid rgba(255,255,255,.08);
 }
 
-@keyframes navPulse{
+.logo{
 
-    0%,100%{
-        box-shadow:0 0 0 rgba(56,189,248,0);
-    }
-
-    50%{
-        box-shadow:0 0 20px rgba(56,189,248,.08);
-    }
+font-size:24px;
+font-weight:bold;
+color:#38bdf8;
 }
 
-/* ========================================= */
-/* IP BOX GLOW */
-/* ========================================= */
+.nav-links a{
 
-.ip-box{
+margin-left:15px;
 
-    animation:ipPulse 5s ease-in-out infinite;
+cursor:pointer;
+
+padding:10px 15px;
+
+border-radius:10px;
+
+background:
+rgba(255,255,255,.05);
+
+transition:.3s;
 }
-
-@keyframes ipPulse{
-
-    0%,100%{
-        box-shadow:0 0 0 rgba(56,189,248,0);
-    }
-
-    50%{
-        box-shadow:0 0 20px rgba(56,189,248,.15);
-    }
-}
-
-/* ========================================= */
-/* LINK HOVER FLOAT */
-/* ========================================= */
 
 .nav-links a:hover{
 
-    transform:
-    translateY(-2px)
-    scale(1.03);
+background:
+rgba(56,189,248,.2);
+
+transform:translateY(-2px);
 }
 
-/* ========================================= */
-/* PROFILE AVATAR GLOW */
-/* ========================================= */
+.tab{
 
-.profile-avatar{
+display:none;
 
-    box-shadow:
-    0 0 15px rgba(56,189,248,.2);
+padding:60px 20px;
 }
 
-.profile-avatar:hover{
+.active{
 
-    box-shadow:
-    0 0 25px rgba(56,189,248,.5);
+display:block;
 }
 
-/* ========================================= */
-/* SMOOTH PAGE FEEL */
-/* ========================================= */
+.hero{
 
-*{
-    scroll-behavior:smooth;
+text-align:center;
+padding-top:120px;
+}
+
+.hero h1{
+
+font-size:65px;
+
+color:#38bdf8;
+
+margin-bottom:15px;
+}
+
+.hero p{
+
+color:#94a3b8;
+
+font-size:20px;
+}
+
+.ip-box{
+
+display:inline-flex;
+
+gap:15px;
+
+margin-top:30px;
+
+padding:15px;
+
+border-radius:15px;
+
+background:
+rgba(255,255,255,.05);
+
+backdrop-filter:blur(10px);
+}
+
+.ip-box button{
+
+background:#22c55e;
+
+border:none;
+
+padding:10px 15px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+color:white;
+}
+
+.card{
+
+max-width:700px;
+
+margin:auto;
+
+padding:35px;
+
+border-radius:20px;
+
+background:
+rgba(255,255,255,.05);
+
+backdrop-filter:blur(12px);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.vote-btn{
+
+display:block;
+
+text-decoration:none;
+
+padding:15px;
+
+text-align:center;
+
+border-radius:12px;
+
+background:
+linear-gradient(
+135deg,
+#38bdf8,
+#2563eb
+);
+
+color:white;
+
+font-weight:bold;
+
+transition:.3s;
+}
+
+.vote-btn:hover{
+
+transform:translateY(-3px);
+}
+
+.news-item{
+
+padding:15px;
+
+background:
+rgba(255,255,255,.04);
+
+border-radius:12px;
+}
+
+#toast{
+
+position:fixed;
+
+bottom:20px;
+right:20px;
+
+background:#22c55e;
+
+padding:15px;
+
+border-radius:12px;
+
+display:none;
 }
