@@ -161,11 +161,17 @@ window.innerHeight;
 }
 );
 
+function copyIP() {
+    navigator.clipboard.writeText("atlantis.minecraft.party");
+    const toast = document.getElementById("toast");
+    toast.style.display = "block";
+    setTimeout(() => toast.style.display = "none", 2000);
+}
+
+// AtlantisMC oyuncu sayısını güncelle
 async function updatePlayerCount() {
     try {
-        const response = await fetch("https://api.mcsrvstat.us/3/atlantis.minecraft.party", {
-            headers: { "User-Agent": "AtlantisMC-WebClient" }
-        });
+        const response = await fetch("https://api.mcsrvstat.us/2/atlantis.minecraft.party");
         const data = await response.json();
 
         if (data.online) {
@@ -179,5 +185,9 @@ async function updatePlayerCount() {
     }
 }
 
-// Sayfa açıldığında çalıştır
-window.onload = updatePlayerCount;
+// Sayfa açıldığında çalıştır ve her 30 saniyede bir güncelle
+window.onload = () => {
+    updatePlayerCount();
+    setInterval(updatePlayerCount, 30000);
+};
+
